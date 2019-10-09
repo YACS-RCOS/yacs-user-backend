@@ -5,6 +5,9 @@ from database import DB
 def register(form):
     db = DB()
 
+    if form == None:
+        return msg.errMsg("Empty Request Body.")
+
     try:
         name = form['name']
         email = form['email']
