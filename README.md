@@ -12,3 +12,6 @@ cp config.py.example config.py
 vim config.py # Modify the database connection
 python3 app.py
 ```
+
+## License
+AGPL v3
