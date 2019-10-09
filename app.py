@@ -8,4 +8,4 @@ def registerRoute():
     return register(request.json)
 
 if __name__ == '__main__':
-    app.run(debug=APP_DEBUG_MODE)
+    app.run(debug=APP_DEBUG_MODE,host=APP_HOST)
