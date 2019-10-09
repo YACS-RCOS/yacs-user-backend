@@ -38,9 +38,9 @@ class DB(object):
             return None
         cur = self.pg.getCursor()
         if uid != None:
-            sql = """SELECT uid, name, email, phone, password, major, degree FROM yacs_user_system.userinfo.users WHERE uid = %s""" % str(uid)
+            sql = """SELECT uid, name, email, phone, password, major, degree FROM yacs_user_system.public.users WHERE uid = %s""" % str(uid)
         else:
-            sql = """SELECT uid, name, email, phone, password, major, degree FROM yacs_user_system.userinfo.users WHERE email = '%s'""" % str(email)
+            sql = """SELECT uid, name, email, phone, password, major, degree FROM yacs_user_system.public.users WHERE email = '%s'""" % str(email)
         try:
             cur.execute(sql)
         except psycopg2.DatabaseError as e:
@@ -48,7 +48,7 @@ class DB(object):
         return cur.fetchall()
 
     def addUser(self,name,email,phone,password,major,degree):
-        sql = """INSERT INTO yacs_user_system.userinfo.users (name, email, phone, password, major, degree) VALUES (%s, %s, %s, %s, %s, %s)"""
+        sql = """INSERT INTO yacs_user_system.public.users (name, email, phone, password, major, degree) VALUES (%s, %s, %s, %s, %s, %s)"""
         cur = self.pg.getCursor()
         cur.execute(sql,(name,email,phone,password,major,degree))
         self.pg.commit()
