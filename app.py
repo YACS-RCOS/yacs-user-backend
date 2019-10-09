@@ -1,4 +1,5 @@
 from flask import Flask, request
+from config import *
 from Register import *
 app = Flask(__name__)
 
@@ -7,4 +8,4 @@ def registerRoute():
     return register(request.json)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=APP_DEBUG_MODE)
