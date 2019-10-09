@@ -13,10 +13,10 @@ class User(object):
 
         if uid != None:
             sql = """SELECT uid, name, email, phone, major, degree FROM yacs_user_system.public.users WHERE uid = %s"""
-            arg = str(uid)
+            arg = (str(uid),)
         else:
-            sql = """SELECT uid, name, email, phone, major, degree FROM yacs_user_system.public.users WHERE email = '%s'"""
-            arg = str(email)
+            sql = """SELECT uid, name, email, phone, major, degree FROM yacs_user_system.public.users WHERE email = %s"""
+            arg = (str(email),)
         try:
             cur.execute(sql,arg)
         except psycopg2.Error as e:
