@@ -26,3 +26,5 @@ def addSession(form):
 
     sessions.saveSession(newSessionID,uid)
 
+    return msg.successMsg({"sessionID" : newSessionID, "uid" : uid})
+

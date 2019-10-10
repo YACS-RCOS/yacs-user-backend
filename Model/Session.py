@@ -6,7 +6,7 @@ class Session(Model):
 
 
     def createSessionID(self):
-        return uuid.uuid1()
+        return str(uuid.uuid1())
 
     def saveSession(self,session,uid):
         cur = self.pg.getCursor()
