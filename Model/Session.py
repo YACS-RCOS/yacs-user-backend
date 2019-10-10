@@ -1,5 +1,6 @@
 from Model.Model import *
 import uuid
+from datetime import datetime
 class Session(Model):
     def __init__(self):
         super().__init__()
@@ -8,10 +9,11 @@ class Session(Model):
     def createSessionID(self):
         return str(uuid.uuid1())
 
-    def saveSession(self,session,uid):
+    def appendSession(self, session, uid):
+        timestamp = datetime.utcnow()
         cur = self.pg.getCursor()
-        sql = """INSERT INTO yacs_user_system.public.sessions (sessionid, uid) VALUES (%s,%s);"""
-        args = (session,uid)
+        sql = """INSERT INTO yacs_user_system.public.sessions (sessionid, uid, start_time) VALUES (%s,%s,%s);"""
+        args = (session,uid,timestamp)
         try:
             cur.execute(sql,args)
             self.pg.commit()

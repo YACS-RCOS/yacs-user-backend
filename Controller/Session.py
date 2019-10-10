@@ -24,7 +24,7 @@ def addSession(form):
     uid = usersFounded[0][0]
     newSessionID = sessions.createSessionID()
 
-    sessions.saveSession(newSessionID,uid)
+    sessions.appendSession(newSessionID, uid)
 
     return msg.successMsg({"sessionID" : newSessionID, "uid" : uid})
 
