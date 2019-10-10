@@ -14,8 +14,18 @@ class database(object):
     def close(self):
         self.conn.close()
 
-    def getCursor(self):
-        return self.conn.cursor()
+    def execute(self,sql,args,isSELECT):
+        cur = self.conn.cursor()
+        try:
+            if isSELECT:
+                cur.execute(sql, args)
+                ret = cur.fetchall()
+            else:
+                ret = cur.execute(sql, args)
+                self.conn.commit()
 
-    def commit(self):
-        self.conn.commit()
+        except psycopg2.Error as e:
+            print(e)
+            return None
+
+        return ret
