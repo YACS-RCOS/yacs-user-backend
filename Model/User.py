@@ -1,22 +1,23 @@
-import psycopg2
-import database
-class User(object):
+from Model.Model import *
+class User(Model):
     def __init__(self):
-        self.pg = database.database()
-        self.pg.connect()
+        super().__init__()
 
-    def __del__(self):
-        self.pg.close()
-
-    def getUser(self, uid=None, email=None):
+    def getUser(self, name='%',email='%', password='%',phone='%',major='%',degree='%'):
         cur = self.pg.getCursor()
 
-        if uid != None:
-            sql = """SELECT uid, name, email, phone, major, degree FROM yacs_user_system.public.users WHERE uid = %s"""
-            arg = (str(uid),)
-        else:
-            sql = """SELECT uid, name, email, phone, major, degree FROM yacs_user_system.public.users WHERE email = %s"""
-            arg = (str(email),)
+
+        sql = """   SELECT uid, name, email, phone,password,major,degree 
+                    FROM yacs_user_system.public.users
+                    WHERE   name        LIKE %s AND 
+                            email       LIKE %s AND 
+                            phone       LIKE %s AND 
+                            password    LIKE %s AND 
+                            major       LIKE %s AND 
+                            degree      LIKE %s"""
+
+        arg = (name,email,phone,password,major,degree)
+
         try:
             cur.execute(sql,arg)
         except psycopg2.Error as e:
