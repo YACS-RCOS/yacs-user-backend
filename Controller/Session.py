@@ -11,9 +11,14 @@ def deleteSession(form):
     sessions = SessionModel()
 
     givenSessionID = form['sessionID']
+
+    sessionFounded = sessions.getSession(sessionID=givenSessionID)
+    if len(sessionFounded) == 0:
+        return msg.errMsg("Can't found the session.")
+    
     endTime = datetime.utcnow()
     sessions.endSession(givenSessionID,endTime)
-    return msg.successMsg({"sessionID":givenSessionID,"endTime": endTime})
+    return msg.successMsg({"sessionID":givenSessionID,"endTime": str(endTime)})
 
 
 def addSession(form):
