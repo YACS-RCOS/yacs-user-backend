@@ -13,6 +13,10 @@ def deleteSession(form):
     givenSessionID = form['sessionID']
 
     sessionFounded = sessions.getSession(sessionID=givenSessionID)
+
+    if sessionFounded == None:
+        return msg.errMsg("Failed to find given session")
+
     if len(sessionFounded) == 0:
         return msg.errMsg("Can't found the session.")
 
@@ -20,7 +24,11 @@ def deleteSession(form):
         return msg.errMsg("This session already canceled.")
 
     endTime = datetime.utcnow()
-    sessions.endSession(givenSessionID,endTime)
+
+    endSessionResult = sessions.endSession(givenSessionID,endTime)
+    if endSessionResult == None:
+        return msg.errMsg("Failed to end this session.")
+
     return msg.successMsg({"sessionID":givenSessionID,"endTime": str(endTime)})
 
 
@@ -43,6 +51,11 @@ def addSession(form):
     uid = usersFounded[0][0]
     newSessionID = sessions.createSessionID()
     startTime = datetime.utcnow()
-    sessions.startSession(newSessionID, uid, startTime)
+
+    startSessionResult = sessions.startSession(newSessionID, uid, startTime)
+
+    if startSessionResult == None:
+        return msg.errMsg("Failed to start a new session.")
+
     return msg.successMsg({"sessionID" : newSessionID, "uid" : uid, "startTime": str(startTime)})
 

@@ -30,8 +30,8 @@ def addUser(form):
     if len(findUser) != 0:
         return msg.errMsg("User already exists.")
 
-    ret = users.addUser(name, email, phone, password, major, degree)
-    if ret != None:
-        return msg.successMsg({"msg": "User added successfully."})
-    else:
+    addUserResult = users.addUser(name, email, phone, password, major, degree)
+    if addUserResult == None:
         return msg.errMsg("Failed to add user.")
+    
+    return msg.successMsg({"msg": "User added successfully."})
