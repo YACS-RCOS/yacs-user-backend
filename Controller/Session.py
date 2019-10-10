@@ -15,7 +15,10 @@ def deleteSession(form):
     sessionFounded = sessions.getSession(sessionID=givenSessionID)
     if len(sessionFounded) == 0:
         return msg.errMsg("Can't found the session.")
-    
+
+    if sessionFounded[0][3] != None:
+        return msg.errMsg("This session already canceled.")
+
     endTime = datetime.utcnow()
     sessions.endSession(givenSessionID,endTime)
     return msg.successMsg({"sessionID":givenSessionID,"endTime": str(endTime)})

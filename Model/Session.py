@@ -21,16 +21,13 @@ class Session(Model):
         return 0
 
 
-    def getSession(self,sessionID='%',uid='%',start_time='%',end_time='%'):
+    def getSession(self,sessionID='%'):
         cur = self.pg.getCursor()
         sql = """   SELECT sessionid, uid, start_time,end_time 
                     FROM yacs_user_system.public.sessions 
-                    WHERE   sessionid   LIKE %s AND
-                            uid         LIKE %s AND
-                            start_time  LIKE %s AND
-                            end_time    LIKE %s"""
+                    WHERE   sessionid::text LIKE %s"""
 
-        arg = (sessionID,uid,start_time,end_time)
+        arg = (sessionID,)
         try:
             cur.execute(sql,arg)
         except psycopg2.Error as e:
@@ -40,7 +37,7 @@ class Session(Model):
 
     def endSession(self,sessionID,endTime):
         cur = self.pg.getCursor()
-        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid LIKE %s;"""
+        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid::text LIKE %s;"""
         args = (endTime,sessionID)
 
         try:
