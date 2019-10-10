@@ -18,6 +18,9 @@ def getUser():
 def login():
     return sessionController.addSession(request.json)
 
+@app.route('/sessions', methods=['DELETE'])
+def logout():
+    return sessionController.deleteSession(request.json)
 
 if __name__ == '__main__':
     app.run(debug=APP_DEBUG_MODE,host=APP_HOST)

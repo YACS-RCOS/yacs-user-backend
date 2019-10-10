@@ -1,8 +1,19 @@
 from common import *
 from Model.Session import Session as SessionModel
 from Model.User import User as UserModel
-
+from datetime import datetime
 import View.Message as msg
+
+def deleteSession(form):
+    if not checkKeys(form, ['sessionID']):
+        return msg.errMsg("Please check your request body.")
+
+    sessions = SessionModel()
+
+    givenSessionID = form['sessionID']
+    endTime = datetime.utcnow()
+    sessions.endSession(givenSessionID,endTime)
+    return msg.successMsg({"sessionID":givenSessionID,"endTime": endTime})
 
 
 def addSession(form):
@@ -23,8 +34,7 @@ def addSession(form):
 
     uid = usersFounded[0][0]
     newSessionID = sessions.createSessionID()
-
-    sessions.appendSession(newSessionID, uid)
-
-    return msg.successMsg({"sessionID" : newSessionID, "uid" : uid})
+    startTime = datetime.utcnow()
+    sessions.startSession(newSessionID, uid, startTime)
+    return msg.successMsg({"sessionID" : newSessionID, "uid" : uid, "startTime": str(startTime)})
 

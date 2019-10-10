@@ -1,19 +1,17 @@
 from Model.Model import *
 import uuid
-from datetime import datetime
+
 class Session(Model):
     def __init__(self):
         super().__init__()
 
-
     def createSessionID(self):
         return str(uuid.uuid1())
 
-    def appendSession(self, session, uid):
-        timestamp = datetime.utcnow()
+    def startSession(self, session, uid, startTime):
         cur = self.pg.getCursor()
         sql = """INSERT INTO yacs_user_system.public.sessions (sessionid, uid, start_time) VALUES (%s,%s,%s);"""
-        args = (session,uid,timestamp)
+        args = (session,uid,startTime)
         try:
             cur.execute(sql,args)
             self.pg.commit()
@@ -23,6 +21,32 @@ class Session(Model):
         return 0
 
 
-    def checkSession(self,sessionID):
-        pass
+    def getSession(self,sessionID='%',uid='%',start_time='%',end_time='%'):
+        cur = self.pg.getCursor()
+        sql = """   SELECT sessionid, uid, start_time,end_time 
+                    FROM yacs_user_system.public.sessions 
+                    WHERE   sessionid   LIKE %s AND
+                            uid         LIKE %s AND
+                            start_time  LIKE %s AND
+                            end_time    LIKE %s"""
 
+        arg = (sessionID,uid,start_time,end_time)
+        try:
+            cur.execute(sql,arg)
+        except psycopg2.Error as e:
+            print(e)
+            return None
+        return cur.fetchall()
+
+    def endSession(self,sessionID,endTime):
+        cur = self.pg.getCursor()
+        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid LIKE %s;"""
+        args = (endTime,sessionID)
+
+        try:
+            cur.execute(sql,args)
+            self.pg.commit()
+        except psycopg2.Error as e:
+            print(e)
+            return None
+        return 0
