@@ -21,7 +21,8 @@ class database(object):
                 cur.execute(sql, args)
                 ret = cur.fetchall()
             else:
-                ret = cur.execute(sql, args)
+                cur.execute(sql, args)
+                ret = 0
                 self.conn.commit()
 
         except psycopg2.Error as e:

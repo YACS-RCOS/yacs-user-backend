@@ -33,5 +33,5 @@ def addUser(form):
     addUserResult = users.addUser(name, email, phone, password, major, degree)
     if addUserResult == None:
         return msg.errMsg("Failed to add user.")
-    
+
     return msg.successMsg({"msg": "User added successfully."})
