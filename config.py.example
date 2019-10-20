@@ -7,3 +7,9 @@ DB_PASSWORD=""
 # App Settings
 APP_DEBUG_MODE=True
 APP_HOST="0.0.0.0"
+
+
+# Email SMTP Settings
+mail_host="smtp.XXX.com"
+mail_user="XXXX"
+mail_pass="XXXXXX"
