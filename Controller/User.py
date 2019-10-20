@@ -2,6 +2,39 @@ from Model.User import User as UserModel
 from Model.Session import Session as SessionModel
 import View.Message as msg
 from common import *
+
+def updateUser(form):
+    users = UserModel()
+    sessions = SessionModel()
+
+    if not checkKeys(form, ['sessionID','name', 'email', 'phone','newPassword', 'major', 'degree']):
+        return msg.errMsg("Please check your requests.")
+
+    name = form['name']
+    sessionID = form['sessionID']
+    email = form['email']
+    phone = form['phone']
+    newPassword = form['newPassword']
+    major = form['major']
+    degree = form['degree']
+
+    if newPassword.strip() == "":
+        return msg.errMsg("Password cannot be empty.")
+
+    # Get User according to sessionID
+    session = sessions.getSession(sessionID)
+    if len(session) == 0:
+        return msg.errMsg("Unable to find the session.")
+
+    (sessionid, uid, start_time, end_time) = session[0]
+
+    ret = users.updateUser(uid,name,email,phone,newPassword,major,degree)
+
+    if ret == None:
+        return msg.errMsg("Failed to update user profile.")
+
+    return msg.successMsg({})
+
 def deleteUser(form):
     users = UserModel()
     sessions = SessionModel()

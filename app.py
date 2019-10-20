@@ -14,9 +14,9 @@ def addUser():
 def deleteUser():
     return userController.deleteUser(request.json)
 
-# @app.route('/users', methods=['PUT'])
-# def updateUserInfo():
-#     return userController.updateUser(request.json)
+@app.route('/users', methods=['PUT'])
+def updateUserInfo():
+    return userController.updateUser(request.json)
 
 @app.route('/sessions', methods=['POST'])
 def login():

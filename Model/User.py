@@ -30,3 +30,15 @@ class User(Model):
         args = (uid,)
         return self.pg.execute(sql,args,False)
 
+
+    def updateUser(self,uid,name,email,phone,password,major,degree):
+        sql = """   UPDATE yacs_user_system.public.users SET 
+                    name = %s       , 
+                    email = %s      ,
+                    phone = %s      ,
+                    password = %s   ,
+                    major = %s      ,
+                    degree = %s
+                    WHERE uid = %s;"""
+        args = (name,email,phone,password,major,degree,uid)
+        return self.pg.execute(sql, args, False)
