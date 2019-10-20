@@ -10,9 +10,13 @@ app = Flask(__name__)
 def addUser():
     return userController.addUser(request.json)
 
-@app.route('/users', methods=['GET'])
-def getUser():
-    return userController.getUser(request.json)
+@app.route('/users', methods=['DELETE'])
+def deleteUser():
+    return userController.deleteUser(request.json)
+
+# @app.route('/users', methods=['PUT'])
+# def updateUserInfo():
+#     return userController.updateUser(request.json)
 
 @app.route('/sessions', methods=['POST'])
 def login():

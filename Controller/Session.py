@@ -25,7 +25,7 @@ def deleteSession(form):
 
     endTime = datetime.utcnow()
 
-    endSessionResult = sessions.endSession(givenSessionID,endTime)
+    endSessionResult = sessions.endSession(sessionID=givenSessionID,endTime=endTime)
     if endSessionResult == None:
         return msg.errMsg("Failed to end this session.")
 
@@ -41,7 +41,7 @@ def addSession(form):
 
     (email,password)=(form['email'],form['password'])
 
-    usersFounded = users.getUser(email=email,password=password)
+    usersFounded = users.getUser(email=email,password=password,enable=True)
     if usersFounded == None:
         return msg.errMsg("Failed to validate user information.")
 

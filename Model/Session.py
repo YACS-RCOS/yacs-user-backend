@@ -1,4 +1,5 @@
 from Model.Model import *
+from datetime import datetime
 import uuid
 
 class Session(Model):
@@ -22,7 +23,7 @@ class Session(Model):
         arg = (sessionID,)
         return self.pg.execute(sql,arg,True)
 
-    def endSession(self,sessionID,endTime):
-        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid::text LIKE %s;"""
-        args = (endTime,sessionID)
+    def endSession(self,sessionID='%',uid='%',endTime=datetime.utcnow()):
+        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid::text LIKE %s AND uid::text LIKE %s;"""
+        args = (endTime,sessionID,str(uid))
         return self.pg.execute(sql,args,False)
