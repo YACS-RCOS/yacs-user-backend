@@ -3,6 +3,29 @@ from Model.Session import Session as SessionModel
 import View.Message as msg
 from common import *
 
+def getUserInfo(form):
+    users = UserModel()
+    sessions = SessionModel()
+
+    if not checkKeys(form, ['sessionID']):
+        return msg.errMsg("Invalid Session ID.")
+
+    sessionID = form['sessionID']
+    session = sessions.getSession(sessionID)
+    if len(session) == 0:
+        return msg.errMsg("Unable to find the session.")
+
+    (sessionid, uid, start_time, end_time) = session[0]
+    user = users.getUser(uid=uid)
+
+    if len(user) == 0:
+        return msg.errMsg("Unable to find the user")
+
+    (uid, name, email, phone, password, major, degree, enable) = user[0]
+
+    return msg.successMsg({"uid": uid,"name": name, "email": email, "phone":phone, "major": major, "degree": degree})
+
+
 def updateUser(form):
     users = UserModel()
     sessions = SessionModel()

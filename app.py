@@ -3,8 +3,15 @@ from flask import Flask, request
 from config import *
 import Controller.User as userController
 import Controller.Session as sessionController
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
+
+@app.route('/users', methods=['GET'])
+def getUserInfo():
+    return userController.getUserInfo(request.json)
 
 @app.route('/users', methods=['POST'])
 def addUser():
