@@ -5,6 +5,6 @@ class UserEvent(Model):
 
     def addEvent(self,uid,eventID,data,timestamp):
 
-        sql = """INSERT INTO yacs_user_system.public.userevents ("eventID", "uid", "data", "createdAt") VALUES (%s, %s, %s, %s)"""
+        sql = """INSERT INTO public.userevents ("eventID", "uid", "data", "createdAt") VALUES (%s, %s, %s, %s)"""
         args = (eventID,uid,data,timestamp)
         return self.pg.execute(sql,args,False)

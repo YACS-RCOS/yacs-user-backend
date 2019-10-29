@@ -10,20 +10,20 @@ class Session(Model):
         return str(uuid.uuid1())
 
     def startSession(self, session, uid, startTime):
-        sql = """INSERT INTO yacs_user_system.public.sessions (sessionid, uid, start_time) VALUES (%s,%s,%s);"""
+        sql = """INSERT INTO public.sessions (sessionid, uid, start_time) VALUES (%s,%s,%s);"""
         args = (session,uid,startTime)
         return self.pg.execute(sql,args,False)
 
 
     def getSession(self,sessionID='%'):
         sql = """   SELECT sessionid, uid, start_time,end_time 
-                    FROM yacs_user_system.public.sessions 
+                    FROM public.sessions
                     WHERE   sessionid::text LIKE %s"""
 
         arg = (sessionID,)
         return self.pg.execute(sql,arg,True)
 
     def endSession(self,sessionID='%',uid='%',endTime=datetime.utcnow()):
-        sql = """UPDATE yacs_user_system.public.sessions SET end_time = %s WHERE sessionid::text LIKE %s AND uid::text LIKE %s;"""
+        sql = """UPDATE public.sessions SET end_time = %s WHERE sessionid::text LIKE %s AND uid::text LIKE %s;"""
         args = (endTime,sessionID,str(uid))
         return self.pg.execute(sql,args,False)

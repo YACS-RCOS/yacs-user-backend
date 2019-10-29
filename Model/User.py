@@ -5,7 +5,7 @@ class User(Model):
 
     def getUser(self, uid='%', name='%',email='%', password='%',phone='%',major='%',degree='%',enable=True):
         sql = """   SELECT uid, name, email, phone,password,major,degree,enable
-                    FROM yacs_user_system.public.users
+                    FROM public.users
                     WHERE   uid::text   LIKE %s AND
                             name        LIKE %s AND 
                             email       LIKE %s AND 
@@ -19,20 +19,20 @@ class User(Model):
         return self.pg.execute(sql,args,True)
 
     def addUser(self,name,email,phone,password,major,degree):
-        sql = """INSERT INTO yacs_user_system.public.users (name, email, phone, password, major, degree,enable) VALUES (%s, %s, %s, %s, %s, %s, TRUE)"""
+        sql = """INSERT INTO public.users (name, email, phone, password, major, degree,enable) VALUES (%s, %s, %s, %s, %s, %s, TRUE)"""
         args = (name,email,phone,password,major,degree)
         return self.pg.execute(sql,args,False)
 
 
 
     def deleteUser(self,uid):
-        sql = """UPDATE yacs_user_system.public.users SET enable = FALSE WHERE uid = %s;"""
+        sql = """UPDATE public.users SET enable = FALSE WHERE uid = %s;"""
         args = (uid,)
         return self.pg.execute(sql,args,False)
 
 
     def updateUser(self,uid,name,email,phone,password,major,degree):
-        sql = """   UPDATE yacs_user_system.public.users SET 
+        sql = """   UPDATE public.users SET 
                     name = %s       , 
                     email = %s      ,
                     phone = %s      ,
