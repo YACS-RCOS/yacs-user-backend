@@ -3,35 +3,45 @@ from flask import Flask, request
 from config import *
 import Controller.User as userController
 import Controller.Session as sessionController
+import Controller.UserEvent as eventController
 from flask_cors import CORS
-
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/users', methods=['GET'])
 def getUserInfo():
     return userController.getUserInfo(request.json)
 
+
 @app.route('/users', methods=['POST'])
 def addUser():
     return userController.addUser(request.json)
+
 
 @app.route('/users', methods=['DELETE'])
 def deleteUser():
     return userController.deleteUser(request.json)
 
+
 @app.route('/users', methods=['PUT'])
 def updateUserInfo():
     return userController.updateUser(request.json)
+
 
 @app.route('/sessions', methods=['POST'])
 def login():
     return sessionController.addSession(request.json)
 
+
 @app.route('/sessions', methods=['DELETE'])
 def logout():
     return sessionController.deleteSession(request.json)
 
+@app.route('/userEvent', methods=['POST'])
+def addUserEvent():
+    return eventController.addEvent(request.json)
+
 if __name__ == '__main__':
-    app.run(debug=APP_DEBUG_MODE,host=APP_HOST)
+    app.run(debug=APP_DEBUG_MODE, host=APP_HOST)
