@@ -5,7 +5,7 @@ import Controller.User as userController
 import Controller.Session as sessionController
 import Controller.UserEvent as eventController
 from flask_cors import CORS
-
+import json
 app = Flask(__name__)
 CORS(app)
 
@@ -41,7 +41,7 @@ def logout():
 
 @app.route('/userEvent', methods=['POST'])
 def addUserEvent():
-    return eventController.addEvent(request.json)
+    return eventController.addEvent(json.loads(request.data))
 
 if __name__ == '__main__':
     app.run(debug=APP_DEBUG_MODE, host=APP_HOST)
