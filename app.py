@@ -9,7 +9,6 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-
 @app.route('/users', methods=['GET'])
 def getUserInfo():
     return userController.getUserInfo(request.json)
@@ -18,7 +17,6 @@ def getUserInfo():
 @app.route('/users', methods=['POST'])
 def addUser():
     return userController.addUser(request.json)
-
 
 @app.route('/users', methods=['DELETE'])
 def deleteUser():
@@ -33,7 +31,6 @@ def updateUserInfo():
 @app.route('/sessions', methods=['POST'])
 def login():
     return sessionController.addSession(request.json)
-
 
 @app.route('/sessions', methods=['DELETE'])
 def logout():

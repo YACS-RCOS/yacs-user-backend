@@ -21,3 +21,4 @@ def addEvent(form):
         return msg.errMsg("Failed to add event.")
 
     return msg.successMsg({"msg": "Event added successfully."})
+  
