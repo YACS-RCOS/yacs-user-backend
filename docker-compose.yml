@@ -10,3 +10,13 @@ services:
       - ./:/app
     ports:
       - "5000:5000"
+  user_psql:
+    container_name: user_psql
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=yacs@rpi
+      - POSTGRES_DB=main
+    ports:
+      - 5432:5432
+    
