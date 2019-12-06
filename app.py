@@ -9,6 +9,10 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def root():
+    return "user-backend service up"
+
 @app.route('/users', methods=['GET'])
 def getUserInfo():
     return userController.getUserInfo(request.json)
