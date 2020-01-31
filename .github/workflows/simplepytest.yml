@@ -45,7 +45,6 @@ jobs:
   testdocker:
     name: Test docker-compose stack
     runs-on: ubuntu-latest
-    needs: testcode
     
     steps:
     - uses: actions/checkout@v2  
