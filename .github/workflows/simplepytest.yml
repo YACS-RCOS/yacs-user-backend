@@ -1,6 +1,9 @@
 name: Simple Pytest 
 
-on: [push]
+on:
+  push:
+    branches:
+      - test/simple
 
 jobs:
   testcode:
@@ -47,7 +50,6 @@ jobs:
     - name: Build complete stack
       run: docker-compose up -d
     - name: Check running containers
-      run: docker ps -a
-    - name: Check api availability
-      run: curl -s --retry 10 --retry-connrefused http://localhost:5000
-
+      run: |
+        docker ps -a
+        docker logs
