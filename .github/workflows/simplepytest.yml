@@ -7,6 +7,8 @@ on:
 
 jobs:
   testcode:
+    if: "false"
+
     name: Test user_backend with pytest 
     runs-on: ubuntu-latest
 
@@ -52,4 +54,4 @@ jobs:
     - name: Check running containers
       run: |
         docker ps -a
-        docker logs
+        docker-compose logs --tail="all" -tf
