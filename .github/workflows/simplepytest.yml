@@ -34,9 +34,9 @@ jobs:
         pytest --cov=. > coverage.txt
     - name: Save coverage report as artifact
       uses: actions/upload-artficat@v1
-        with:
-          name: coverage-report
-          path: coverage.txt
+      with:
+        name: coverage-report
+        path: coverage.txt
     - name: Generate coverage report
       run: |
         pip install pytest-cov
