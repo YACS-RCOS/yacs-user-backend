@@ -7,8 +7,6 @@ on:
 
 jobs:
   testcode:
-    if: "false"
-
     name: Test user_backend with pytest 
     runs-on: ubuntu-latest
 
@@ -43,6 +41,7 @@ jobs:
         coveralls
 
   testdocker:
+    timeout-minutes: 1
     name: Test docker-compose stack
     runs-on: ubuntu-latest
     
@@ -51,6 +50,6 @@ jobs:
     - name: Build complete stack
       run: docker-compose up -d
     - name: Check running containers
-      run: |
-        docker ps -a
-        docker-compose logs --tail="all" -tf
+      run: docker ps -a
+    - name: Check api status
+      run: curl -s --retry 10 --retry-connrefused http://localhost:5000/
