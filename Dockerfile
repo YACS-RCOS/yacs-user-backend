@@ -5,7 +5,9 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-COPY config.py.example config.py
+COPY config.py.example ./config.py
+
+ENV PYTHONPATH /app
 
 ENTRYPOINT [ "python" ]
 CMD [ "app.py" ]
