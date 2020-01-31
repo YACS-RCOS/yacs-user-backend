@@ -1,4 +1,6 @@
 # YACS User Backend
+[![Coverage Status](https://coveralls.io/repos/github/123joshuawu/yacs-user-backend/badge.svg?branch=test/simple)](https://coveralls.io/github/123joshuawu/yacs-user-backend?branch=test/simple)
+
 ## Description
 The backend API for the user management system of YACS Project.
 
