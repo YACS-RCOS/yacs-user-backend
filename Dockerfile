@@ -1,10 +1,11 @@
 FROM python:3.7
 WORKDIR /app
-COPY . /app
-COPY config.py.example config.py
 
-COPY requirements.txt /app/tmp/
-RUN pip install -r /app/tmp/requirements.txt
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+COPY config.py.example config.py
 
 ENTRYPOINT [ "python" ]
 CMD [ "app.py" ]
