@@ -4,12 +4,11 @@ services:
   user_backend:
     container_name: user_backend
     build: .
+    command: gunicorn -c gunicorn.conf.py --bind 0.0.0.0:5000 wsgi
     stdin_open: true
     tty: true
-    volumes:
-      - ./:/app
     environment:
-      - APP_DEBUG_MODE=true
+      - APP_DEBUG_MODE=false
     ports:
       - "5000:5000"
   user_psql:
