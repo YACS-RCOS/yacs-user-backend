@@ -50,7 +50,9 @@ jobs:
     - uses: actions/checkout@v2  
     - name: Build complete stack
       run: docker-compose -f docker-compose.staging.yml up -d
-    - name: Check running containers
-      run: docker ps -a
+    - name: Check containers are running
+      run: |
+        docker ps -a
+        [ $(docker ps -a | awk -F '[[:space:]][[:space:]]+' 'FNR > 1 { print $5 }' | grep -c "Up") -eq 2 ]
     - name: Check api status
       run: curl -s --retry 10 --retry-connrefused http://localhost:5000/
