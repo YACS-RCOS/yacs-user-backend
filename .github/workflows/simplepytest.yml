@@ -8,9 +8,12 @@ on:
 jobs:
   testcode:
     name: Test user_backend with pytest 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
+    - name: Install Postgresql
+    - run: |
+        sudo apt-get install postgresql-11
     - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v1

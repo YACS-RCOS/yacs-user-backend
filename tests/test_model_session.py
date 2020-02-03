@@ -1,30 +1,31 @@
 from dataclasses import dataclass
-from datetime import time, timezone
+from datetime import datetime, timezone
+from uuid import uuid1
 
 from typing import List, Optional
+from psycopg2.extensions import connection
 
 from Model.Session import Session
 from .conftest import TestDatabase
 
+# Session model attributes 
 @dataclass
 class SessionModel:
     sessionid: str
     uid: int
-    start_time: time
-    end_time: Optional[time]
+    start_time: datetime 
+    end_time: Optional[datetime]
 
+# Dummy data
 sessions: List[SessionModel] = [
-    SessionModel(("{0}"*6+("-"+"{0}"*3)*4+"{0}").format(i), i, time(i, i, i, i, timezone.utc), None) for i in range(9)
+    SessionModel(str(uuid1()), i, datetime(2000 + i, i, i, i, i, i, i, timezone.utc), None) for i in range(1, 9)
 ]
 
-def test_start_session(postgresql) -> None:
-    db: TestSession = TestSession()
+# Put unit tests here
+def test_start_session(test_session: Session) -> None:
     s: SessionModel = sessions[0]
 
-    assert db.startSession(s.sessionid, s.uid, s.start_time) == 0
+    assert test_session.startSession(s.sessionid, s.uid, s.start_time) == 0
 
 
-class TestSession(Session):
-    def __init__(self, db):
-        self.pg = TestDatabase()
-        self.pg.connect(db)
+
