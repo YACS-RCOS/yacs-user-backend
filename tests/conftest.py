@@ -25,6 +25,6 @@ class TestSession(Session):
 def test_session(postgresql: connection) -> Session:
   test_db: Database = TestDatabase()
   test_db.connect(postgresql)
-  test_db.conn.cursor().execute(open("../sql/init_sessions.sql", "r").read())
+  test_db.conn.cursor().execute(open("sql/init_sessions.sql", "r").read())
 
   return TestSession(test_db)

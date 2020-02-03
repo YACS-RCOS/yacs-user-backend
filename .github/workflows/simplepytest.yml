@@ -49,7 +49,7 @@ jobs:
   testdocker:
     name: Test docker-compose stack
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 2
     needs: testcode
    
     steps:
