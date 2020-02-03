@@ -1,0 +1,6 @@
+.gitignore
+api.md
+.coverage
+__pycache__
+.pytest_cache
+.vscode

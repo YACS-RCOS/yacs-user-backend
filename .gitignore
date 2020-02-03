@@ -110,3 +110,5 @@ config.py
 
 # Mac OS
 .DS_Store
+
+.vscode
