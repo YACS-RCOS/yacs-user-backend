@@ -13,7 +13,8 @@ jobs:
     steps:
     - name: Install Postgresql
       run: |
-        sudo apt-get install postgresql-11
+        sudo apt-get install postgresql
+        sudo apt-get install libpq-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
