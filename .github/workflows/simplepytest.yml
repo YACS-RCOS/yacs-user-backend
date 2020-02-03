@@ -31,6 +31,8 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-postgresql
+        # create config file
+        cp config.py.example config.py
         pytest
     - name: Generate coverage report
       env:
