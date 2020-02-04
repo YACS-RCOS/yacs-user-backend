@@ -3,7 +3,10 @@ import pytest
 
 from psycopg2.extensions import connection
 
+from typing import Generic, TypeVar
+
 from database import database as Database
+from Model.Model import Model
 from Model.Session import Session
 
 from config import DB_NAME
@@ -14,17 +17,27 @@ factories.postgresql_proc('test_postgresql', DB_NAME)
 class TestDatabase(Database):
     def connect(self, postgresql: connection) -> None:
         self.conn = postgresql
- 
-class TestSession(Session):
-    def __init__(self, db: Database) -> Session:
-        self.pg = db 
 
+T = TypeVar('T') 
+
+def test_model_factory(model: T) -> T:
+    class TestModel(model):
+        def __init__(self, db: Database) -> T:
+            self.pg = db
+    return TestModel
+
+def test_model_db_factory(model: T, postgresql: connection) -> T:
+    test_db: Database = TestDatabase()
+    test_db.connect(postgresql)
+    test_db.conn.cursor().execute(open(f"tests/init_sql/{model.__name__.lower()}.sql", "r").read())
+
+    return test_model_factory(model)(test_db)
 
 # Creates pytest fixture for test session object and initializes session table
 @pytest.fixture
 def test_session(postgresql: connection) -> Session:
-  test_db: Database = TestDatabase()
-  test_db.connect(postgresql)
-  test_db.conn.cursor().execute(open("sql/init_sessions.sql", "r").read())
+    return test_model_db_factory(Session, postgresql)
 
-  return TestSession(test_db)
+@pytest.fixture
+def test_user(postgresql: connection) -> User:
+    return test_model_db_factory(User, postgresql)
