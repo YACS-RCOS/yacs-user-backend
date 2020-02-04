@@ -12,7 +12,8 @@ from Model.Session import Session
 from config import DB_NAME
 
 # Creates pytest fixture that injects connection to postgresql database
-factories.postgresql_proc('test_postgresql', DB_NAME)
+# factories.postgresql_proc('test_postgresql', DB_NAME)
+factories.postgresql('postgresql_nooproc')
 
 class TestDatabase(Database):
     def connect(self, postgresql: connection) -> None:
@@ -38,6 +39,6 @@ def test_model_db_factory(model: T, postgresql: connection) -> T:
 def test_session(postgresql: connection) -> Session:
     return test_model_db_factory(Session, postgresql)
 
-@pytest.fixture
-def test_user(postgresql: connection) -> User:
-    return test_model_db_factory(User, postgresql)
+# @pytest.fixture
+# def test_user(postgresql: connection) -> User:
+#     return test_model_db_factory(User, postgresql)
