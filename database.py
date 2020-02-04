@@ -8,6 +8,13 @@ class database(object):
     def connect(self):
         try:
             self.conn = psycopg2.connect(self.connect_str)
+        except psycopg2.Warning as w:
+            print(str(w))
+        except psycopg2.Error as e:
+            print(e.pgerror)
+            print(e.pgcode)
+            print(e.cursor)
+            print(e.diag)
         except:
             print("Fail to connect to database.\n" + self.connect_str)
 

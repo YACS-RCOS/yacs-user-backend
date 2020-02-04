@@ -12,18 +12,18 @@ jobs:
     container:
       image: python:3.8
 
-    # services:
-    #   postgresql:
-    #     image: postgres
-    #     env:
-    #       POSTGRES_USER: postgres
-    #       POSTGRES_PASSWORD: yacs@rpi
-    #       POSTGRES_DB: main
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
+    services:
+      postgresql:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: yacs@rpi
+          POSTGRES_DB: main
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -46,85 +46,85 @@ jobs:
         pip install -r requirements.txt
         pip install -r tests/requirements.txt
 
-    # - name: Lint with flake8
-    #   run: |
-    #     # stop the build if there are Python syntax errors or undefined names
-    #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-    #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    # - name: Test with pytest
-    #   env:
-    #     DB_HOST: postgresql:5432
-    #   run: |
-    #     # create config file
-    #     cp config.py.example config.py
-    #     pytest --ignore=comptests
+    - name: Test with pytest
+      env:
+        DB_HOST: postgresql:5432
+      run: |
+        # create config file
+        cp config.py.example config.py
+        pytest --ignore=comptests
 
-    # - name: Generate coverage report
-    #   env:
-    #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-    #     DB_HOST: postgresql:5432
-    #   run: |
-    #     pytest --cov=. --cov-config=.coveragec
-    #     coveralls
+    - name: Generate coverage report
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        DB_HOST: postgresql:5432
+      run: |
+        pytest --cov=. --cov-config=.coveragec
+        coveralls
           
 
-  # testdocker:
-  #   name: Test docker-compose stack
-  #   runs-on: ubuntu-18.04
-  #   timeout-minutes: 5
-  #   needs: testcode
+  testdocker:
+    name: Test docker-compose stack
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+    needs: testcode
    
-  #   steps:
-  #   - uses: actions/checkout@v2 
+    steps:
+    - uses: actions/checkout@v2 
 
-  #   - name: Build user backend image
-  #     run: docker build -t test_user-backend -f Dockerfile-prod .
+    - name: Build user backend image
+      run: docker build -t test_user-backend -f Dockerfile-prod .
 
-  #   - name: Build complete stack
-  #     run: docker-compose -f docker-compose.staging.yml up -d
+    - name: Build complete stack
+      run: docker-compose -f docker-compose.staging.yml up -d
 
-  #   - name: Check containers are running
-  #     run: |
-  #       docker ps -a
-  #       [ $(docker ps -a | awk -F '[[:space:]][[:space:]]+' 'FNR > 1 { print $5 }' | grep -c "Up") -eq 2 ]
+    - name: Check containers are running
+      run: |
+        docker ps -a
+        [ $(docker ps -a | awk -F '[[:space:]][[:space:]]+' 'FNR > 1 { print $5 }' | grep -c "Up") -eq 2 ]
 
-  #   - name: Check api status
-  #     run: curl -s --retry 10 --retry-connrefused http://localhost:5000/
+    - name: Check api status
+      run: curl -s --retry 10 --retry-connrefused http://localhost:5000/
 
-  #   # Run functional black box test of API
-  #   - name: Set up Python 3.7
-  #     uses: actions/setup-python@v1
-  #     with:
-  #       python-version: 3.7
+    # Run functional black box test of API
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
 
-  #   - name: Upgrade pip
-  #     run: python -m pip install --upgrade pip
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
 
-  #   - uses: actions/cache@v1
-  #     with:
-  #       path: ~/.cache/pip
-  #       key: ${{ runner.os }}-pip-comptests-${{ hashFiles('comptests/requirements.txt') }}
-  #       restore-keys: |
-  #         ${{ runner.os }}-pip-comptests-
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-comptests-${{ hashFiles('comptests/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-comptests-
 
-  #   - name: Install dependencies
-  #     run: pip install -r comptests/requirements.txt
+    - name: Install dependencies
+      run: pip install -r comptests/requirements.txt
 
-  #   - name: Run functional tests
-  #     run: pytest comptests
+    - name: Run functional tests
+      run: pytest comptests
 
-  #   # If image pass tests, push built images to dockerhub
-  #   - name: Docker login
-  #     run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+    # If image pass tests, push built images to dockerhub
+    - name: Docker login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-  #   - name: Tags
-  #     run: |
-  #       docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
-  #       docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:latest
+    - name: Tags
+      run: |
+        docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
+        docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:latest
 
-  #   - name: Push
-  #     run: |
-  #       docker push ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
-  #       docker push ${{ secrets.DOCKER_USER }}/test_user-backend:latest
+    - name: Push
+      run: |
+        docker push ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USER }}/test_user-backend:latest
