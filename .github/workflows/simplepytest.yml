@@ -9,10 +9,11 @@ jobs:
   testcode:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
-    container: python:3.7
+    container:
+      image: python:3.8
 
     services:
-      postgres:
+      postgresql:
         image: postgres
         # ports:
         #   - 5432:5432
@@ -20,6 +21,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: yacs@rpi
           POSTGRES_DB: main
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     # - name: Install Postgresql
@@ -33,6 +39,8 @@ jobs:
     #   uses: actions/setup-python@v1
     #   with:
     #     python-version: 3.7
+    - name: Test to see if can connect to postgres services
+      run: curl postgresql:5432
     - name: Upgrade pip
       run: python -m pip install --upgrade pip
     - uses: actions/cache@v1
@@ -53,7 +61,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       env:
-        DB_HOST: postgres:5432
+        DB_HOST: postgresql:5432
       run: |
         # create config file
         cp config.py.example config.py
@@ -61,7 +69,7 @@ jobs:
     - name: Generate coverage report
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        DB_HOST: postgres:5432
+        DB_HOST: postgresql:5432
       run: |
         pytest --cov=. --cov-config=.coveragec
         coveralls
