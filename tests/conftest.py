@@ -9,11 +9,11 @@ from database import database as Database
 from Model.Model import Model
 from Model.Session import Session
 
-from config import DB_NAME
+from config import DB_HOST, DB_USER
 
 # Creates pytest fixture that injects connection to postgresql database
 # factories.postgresql_proc('test_postgresql', DB_NAME)
-factories.postgresql('postgresql_nooproc')
+factories.postgresql_noproc(*DB_HOST.split(":"), DB_USER)
 
 class TestDatabase(Database):
     def connect(self, postgresql: connection) -> None:
