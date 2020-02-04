@@ -14,7 +14,9 @@ class database(object):
             print(e.pgerror)
             print(e.pgcode)
             print(e.cursor)
-            print(e.diag)
+            print(e.diag.message_primary)
+            print(e.diag.message_detail)
+            print(e.diag.message_hint)
         except:
             print("Fail to connect to database.\n" + self.connect_str)
 
