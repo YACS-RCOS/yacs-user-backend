@@ -3,8 +3,9 @@ version: '3'
 services: 
   user_backend:
     container_name: user_backend
-    build: .
-    command: gunicorn -c gunicorn.conf.py --bind 0.0.0.0:5000 wsgi
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
     stdin_open: true
     tty: true
     environment:
