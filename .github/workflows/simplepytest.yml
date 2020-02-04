@@ -10,17 +10,17 @@ jobs:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
 
-    services:
-      postgres:
-        image: postgres
-        ports:
-          - 5432:5432
+    # services:
+    #   postgres:
+    #     image: postgres
+    #     ports:
+    #       - 5432:5432
 
     steps:
-#    - name: Install Postgresql
-#      run: |
-#        sudo apt-get install postgresql
-#        sudo apt-get install libpq-dev
+    - name: Install Postgresql
+      run: |
+        sudo apt-get install postgresql
+        sudo apt-get install libpq-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v1

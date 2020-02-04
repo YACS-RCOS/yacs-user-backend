@@ -22,9 +22,7 @@ sessions: List[SessionModel] = [
 ]
 
 # Put unit tests here
-# def test_session(test_session: Session) -> None:
-def test_session() -> None:
-    test_session: Session = Session()
+def test_session(test_session: Session) -> None:
     s: SessionModel = sessions[0]
 
     s.sessionid = test_session.createSessionID()
