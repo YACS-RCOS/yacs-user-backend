@@ -70,7 +70,7 @@ jobs:
   testdocker:
     name: Test docker-compose stack
     runs-on: ubuntu-18.04
-    timeout-minutes: 2
+    timeout-minutes: 5
     needs: testcode
    
     steps:
