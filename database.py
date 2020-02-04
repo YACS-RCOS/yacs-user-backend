@@ -9,7 +9,7 @@ class database(object):
         try:
             self.conn = psycopg2.connect(self.connect_str)
         except:
-            print("Fail to connect to database.")
+            print("Fail to connect to database.\n" + self.connect_str)
 
     def close(self):
         self.conn.close()

@@ -9,13 +9,13 @@ jobs:
   testcode:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
-    container: python:3.8
+    container: python:3.7
 
     services:
       postgres:
         image: postgres
-        ports:
-          - 5432:5432
+        # ports:
+        #   - 5432:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: yacs@rpi
