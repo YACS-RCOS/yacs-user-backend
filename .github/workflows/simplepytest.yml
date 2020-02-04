@@ -58,7 +58,7 @@ jobs:
 
   testdocker:
     name: Test docker-compose stack
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     timeout-minutes: 2
     needs: testcode
    
@@ -72,3 +72,21 @@ jobs:
         [ $(docker ps -a | awk -F '[[:space:]][[:space:]]+' 'FNR > 1 { print $5 }' | grep -c "Up") -eq 2 ]
     - name: Check api status
       run: curl -s --retry 10 --retry-connrefused http://localhost:5000/
+  
+  pushdocker:
+    name: Push docker images to dockerhub
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Docker login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build
+      run: docker build -t test_user-backend -f Dockerfile-prod .
+    - name: Tags
+      run: |
+        docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
+        docker tag test_user-backend ${{ secrets.DOCKER_USER }}/test_user-backend:latest
+    - name: Push
+      run: |
+        docker push ${{ secrets.DOCKER_USER }}/test_user-backend:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USER }}/test_user-backend:latest

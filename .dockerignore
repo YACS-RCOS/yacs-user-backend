@@ -4,3 +4,5 @@ api.md
 __pycache__
 .pytest_cache
 .vscode
+tests
+bin
