@@ -33,8 +33,10 @@ jobs:
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - name: Install dependencies
-      if: steps.pip-cache.outputs.cache-hit != 'true'
+      # if: steps.pip-cache.outputs.cache-hit != 'true'
       run: |
         pip install -r requirements.txt
         pip install -r tests/requirements.txt
@@ -76,8 +78,9 @@ jobs:
   pushdocker:
     name: Push docker images to dockerhub
     runs-on: ubuntu-18.04
+
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build
