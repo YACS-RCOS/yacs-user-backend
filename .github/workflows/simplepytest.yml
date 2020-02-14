@@ -14,7 +14,13 @@ jobs:
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+      run: |
+        echo "$GITHUB_CONTEXT" > context.json
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+          name: context-artifact
+          path: context.json
     - name: fail 
       run: |
         [ 1 -eq 2 ]
@@ -22,6 +28,7 @@ jobs:
   testcode:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
+    needs: testcontext
     
     # container:
       # image: python:3.8
