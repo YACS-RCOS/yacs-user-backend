@@ -3,9 +3,22 @@ name: Simple Pytest
 on:
   push:
     branches:
-      - test/simple
+      - test/**
 
 jobs:
+  testcontext:
+    name: Context checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: fail 
+      run: |
+        [ 1 -eq 2 ]
+
   testcode:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
