@@ -9,6 +9,7 @@ jobs:
   testcode:
     name: Test user_backend with pytest 
     runs-on: ubuntu-18.04
+    
     # container:
       # image: python:3.8
 
@@ -30,6 +31,11 @@ jobs:
       run: |
         sudo apt-get install postgresql
         sudo apt-get install libpq-dev
+      
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
 
     - uses: actions/checkout@v2
 
