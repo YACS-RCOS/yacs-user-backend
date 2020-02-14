@@ -6,7 +6,7 @@ from typing import List, Optional
 from psycopg2.extensions import connection
 
 from Model.Session import Session
-# from ..conftest import TestDatabase
+from ..conftest import TestDatabase
 
 # Session model attributes 
 @dataclass
@@ -23,8 +23,8 @@ sessions: List[SessionModel] = [
 
 # Put unit tests here
 # def test_session(test_session: Session) -> None:
-def test_session() -> None:
-    test_session: Session = Session()
+def test_session(test_session: Session) -> None:
+    # test_session: Session = Session()
     s: SessionModel = sessions[0]
 
     s.sessionid = test_session.createSessionID()

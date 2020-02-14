@@ -18,7 +18,7 @@ class database(object):
             print("msgprimary", e.diag.message_primary)
             print("msgdetail", e.diag.message_detail)
             print("msghint", e.diag.message_hint)
-        except:
+        finally:
             print("Fail to connect to database.\n" + self.connect_str)
 
     def close(self):
