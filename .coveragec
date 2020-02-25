@@ -1,0 +1,14 @@
+[run]
+omit = 
+    # ignore all tests
+    tests/*
+    comptests/*
+    # only used in production environments
+    config.py
+    wsgi.py
+    # Mocked components
+    database.py
+    Model/Model.py
+    # Leave testing of http paths to components black box testing
+    app.py
+

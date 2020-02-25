@@ -3,13 +3,14 @@ version: '3'
 services: 
   user_backend:
     container_name: user_backend
-    build: .
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile-prod
+    image: test_user-backend
     stdin_open: true
     tty: true
-    volumes:
-      - ./:/app
     environment:
-      - APP_DEBUG_MODE=true
+      - APP_DEBUG_MODE=false
     ports:
       - "5000:5000"
   user_psql:
