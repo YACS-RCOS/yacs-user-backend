@@ -1,7 +1,7 @@
 # YACS User Backend
-[![Actions Status](https://github.com/123joshuawu/yacs-user-backend/workflows/Simple%20Pytest/badge.svg?branch=test/simple)](https://github.com/123joshuawu/yacs-user-backend/actions)
-[![Coverage Status](https://coveralls.io/repos/github/123joshuawu/yacs-user-backend/badge.svg?branch=test/simple)](https://coveralls.io/github/123joshuawu/yacs-user-backend?branch=test/simple)
-[![Requirements Status](https://requires.io/github/123joshuawu/yacs-user-backend/requirements.svg?branch=test%2Fsimple)](https://requires.io/github/123joshuawu/yacs-user-backend/requirements/?branch=test%2Fsimple)
+[![Actions Status](https://github.com/123joshuawu/yacs-user-backend/workflows/Simple%20Pytest/badge.svg?branch=master)](https://github.com/123joshuawu/yacs-user-backend/actions)
+[![Coverage Status](https://coveralls.io/repos/github/123joshuawu/yacs-user-backend/badge.svg?branch=master)](https://coveralls.io/github/123joshuawu/yacs-user-backend?branch=master)
+[![Requirements Status](https://requires.io/github/123joshuawu/yacs-user-backend/requirements.svg?branch=master)](https://requires.io/github/123joshuawu/yacs-user-backend/requirements/?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/261c6aca0498403b83c9cefb60709a4e)](https://www.codacy.com/manual/123joshuawu/yacs-user-backend?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=123joshuawu/yacs-user-backend&amp;utm_campaign=Badge_Grade)
 
 ## Description
