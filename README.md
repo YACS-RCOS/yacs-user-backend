@@ -1,4 +1,5 @@
 # YACS User Backend
+![Staging](https://github.com/123joshuawu/yacs-user-backend/workflows/Staging/badge.svg?branch=master)
 ![Unit Tests](https://github.com/123joshuawu/yacs-user-backend/workflows/Unit%20Tests/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/123joshuawu/yacs-user-backend/badge.svg?branch=master)](https://coveralls.io/github/123joshuawu/yacs-user-backend?branch=master)
 [![Requirements Status](https://requires.io/github/123joshuawu/yacs-user-backend/requirements.svg?branch=master)](https://requires.io/github/123joshuawu/yacs-user-backend/requirements/?branch=master)
