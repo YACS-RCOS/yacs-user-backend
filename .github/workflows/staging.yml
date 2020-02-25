@@ -12,6 +12,9 @@ jobs:
     timeout-minutes: 5
    
     steps:
+    - name: Update apt-get
+      run: |
+        sudo apt-get update
     # Build compose stack - "staging environment"
     - uses: actions/checkout@v2 
 
