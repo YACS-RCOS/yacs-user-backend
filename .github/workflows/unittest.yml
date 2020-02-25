@@ -1,0 +1,78 @@
+name: Unit Tests
+
+on: push
+
+jobs:
+  testcode:
+    name: Test user_backend with pytest 
+    runs-on: ubuntu-18.04
+    
+    # container:
+      # image: python:3.8
+
+    # services:
+    #   postgresql:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: yacs@rpi
+    #       POSTGRES_DB: main
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+
+    steps:
+    - name: Install Postgresql
+      run: |
+        sudo apt-get install postgresql
+        sudo apt-get install libpq-dev
+      
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - uses: actions/checkout@v2
+
+    - name: Remove functional testing folder
+      run: rm -r comptests
+
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-unittests-${{ hashFiles('tests/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-unittests-
+
+    - name: Install dependencies
+      run: |
+        pip install -r tests/requirements.txt
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Run unit tests with pytest
+      # env:
+        # DB_HOST: postgresql:5432
+      run: |
+        # create config file
+        cp config.py.example config.py
+        pytest --ignore=comptests
+
+    - name: Generate coverage report
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        # DB_HOST: postgresql:5432
+      run: |
+        pytest --cov=. --cov-config=.coveragec
+        coveralls
+        
